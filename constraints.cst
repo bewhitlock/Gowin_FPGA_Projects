@@ -1,0 +1,11 @@
+IO_LOC "clk" H11;
+IO_LOC "value[0]" N16;
+IO_LOC "value[1]" N14;
+IO_LOC "value[2]" L14;
+IO_LOC "value[3]" L16;
+
+IO_PORT "clk" IO_TYPE=LVCMOS33;
+IO_PORT "value[0]" IO_TYPE=LVCMOS33;
+IO_PORT "value[1]" IO_TYPE=LVCMOS33;
+IO_PORT "value[2]" IO_TYPE=LVCMOS33;
+IO_PORT "value[3]" IO_TYPE=LVCMOS33;

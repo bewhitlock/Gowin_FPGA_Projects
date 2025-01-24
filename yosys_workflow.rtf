@@ -1,0 +1,51 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 .AppleSystemUIFontMonospaced-Regular;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red24\green26\blue30;\red0\green0\blue0;\red0\green0\blue0;
+\red11\green34\blue86;\red244\green246\blue249;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c12157\c13725\c15686;\csgray\c0\c0;\cssrgb\c0\c0\c0;
+\cssrgb\c3922\c18824\c41176;\cssrgb\c96471\c97255\c98039;\csgray\c0;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf2 \cb3 \expnd0\expndtw0\kerning0
+Documentation on project apycula: {\field{\*\fldinst{HYPERLINK "https://github.com/YosysHQ/apicula/wiki"}}{\fldrslt https://github.com/YosysHQ/apicula/wiki}}\
+*****************************************************************************\
+Compile:\
+\
+\cf4 Enter yosys \
+\
+read_verilog <design.v>\
+\
+synth_gowin -json <compiled.json>\cf5 \
+\
+\cf4 *****************************************************************************\
+Place+Route:\
+\cf5 \cb6 \
+Exit Yosys\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf7 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 nextpnr-himbaechel --json compiled.json --write output.json --device GW2A-LV18PG256C8/I7 --vopt family=GW2A-18C --vopt cst=constraints.cst\
+\
+*******************************************************************************\
+Generate bitstream:\
+\
+\cf4 \cb3  gowin_pack --device 
+\f0 \expnd0\expndtw0\kerning0
+\CocoaLigature1 GW2A-18 output.json\
+\
+//outputs a file called \'93pack.fs\'94 for programming\
+
+\f1 \cf7 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+*******************************************************************************\
+Program: \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\fs22 openFPGALoader -b tangprimer20k pack.fs\
+
+\fs24 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+//Connect FPGA with cabe before running\
+*******************************************************************************}

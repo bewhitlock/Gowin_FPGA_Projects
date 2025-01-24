@@ -1,27 +1,20 @@
 module dac_driver(
 input clk,
-output din,
-output bck,
-output ws,
+output din, //data in. Accepts the first 16 bits of data as 2's compliment
+output bck, //clk that can run up to 20megs for the sample freq.
+output ws, //ws is low when we send data to the RIGHT channel+vice-versa.
 output amp_shutdown
 );
-assign amp_shutdown = 1'b1;
+assign amp_shutdown = 1'b1; //Shutdown is active-low
 reg din_reg;
 reg ws_reg;
 reg bck_reg;
 
-reg clk_count;
 reg[31:0] data;
 reg[7:0] bit_count;
 reg [23:0] cycle_count;
 always @(posedge clk) begin
-	if (clk_count == 1'b0) begin
-		bck_reg <= 1'b1;
-		clk_count <= 1'b1;
-	end else begin
-		bck_reg <= 1'b0; 
-		clk_count <= 1'b0;
-	end
+	bck_reg = !bck_reg;
 end 
 
 always @(posedge bck_reg) begin //take care of ws signal

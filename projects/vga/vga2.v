@@ -7,14 +7,19 @@ output reg[7:0] green,
 output reg[7:0] blue,
 output reg[9:0] x_val,
 output reg[9:0] y_val,
+
+//temporary testing outputs
 output[11:0] v_count_test,
 output[11:0] h_count_test,
-output dotclk_test
 );
+
+//temporary testing things
 assign h_count_test = h_count;
 assign v_count_test = v_count;
-dot_clock_gen dotclk (.board(board_clock), .dotclock(clk));
 
+
+
+dot_clock_gen dotclk (.board(board_clock), .dotclock(clk));
 
 initial begin
 red = 8'b11111111;

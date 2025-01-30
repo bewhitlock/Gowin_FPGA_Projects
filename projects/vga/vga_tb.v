@@ -9,7 +9,6 @@ wire[9:0] x_val;
 wire[9:0] y_val;
 wire[11:0] h_count;
 wire[11:0] v_count;
-wire dotclk_test;
 
 vga test_vga (.board_clock(clk), .hsync(hsync), .vsync(vsync), .red(red), .green(green), .blue(blue), .x_val(x_val), .y_val(y_val), .h_count_test(h_count), .v_count_test(v_count));
 

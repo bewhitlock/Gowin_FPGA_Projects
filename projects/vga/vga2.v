@@ -8,13 +8,14 @@ output reg[7:0] blue,
 output reg[9:0] x_val,
 output reg[9:0] y_val,
 output[11:0] v_count_test,
-output[11:0] h_count_test
+output[11:0] h_count_test,
+output dotclk_test
 );
 assign h_count_test = h_count;
 assign v_count_test = v_count;
 wire clk;
 dot_clock_gen dotclk (.board(board_clock), .dotclock(clk));
-
+assign dotclk_test = clk;
 initial begin
 red = 8'b11111111;
 green = 8'b11111111;

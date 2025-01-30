@@ -7,8 +7,6 @@ wire[2:0] green;
 wire[2:0] blue;
 
 
-vga test_vga (.clk27Mhz(clk), .hsync_nonreg(hsync), .vsync_nonreg(vsync), .red(red), .green(green), .blue(blue));
-//connect the test bench to the module under test
 
 
 

@@ -10,7 +10,6 @@ output reg[7:0] blue
 wire clk;
 dot_clock_gen dotclk (.Mhz27(board_clock), .dotclock(clk));
 
-
 initial begin
 red = 8'b11111111;
 green = 8'b11111111;
@@ -58,7 +57,6 @@ always @(posedge clk) begin
     end else begin
         hsync <= 1'b1;
     end
-
 
     if(v_sync_pulse > v_count) begin
         vsync <= 1'b0;

@@ -4,11 +4,16 @@ output reg hsync,
 output reg vsync,
 output reg[7:0] red,
 output reg[7:0] green,
-output reg[7:0] blue
+output reg[7:0] blue,
+output reg[9:0] x_val,
+output reg[9:0] y_val,
+output[11:0] v_count_test,
+output[11:0] h_count_test
 );
-
+assign h_count_test = h_count;
+assign v_count_test = v_count;
 wire clk;
-dot_clock_gen dotclk (.Mhz27(board_clock), .dotclock(clk));
+dot_clock_gen dotclk (.board(board_clock), .dotclock(clk));
 
 initial begin
 red = 8'b11111111;
@@ -16,6 +21,8 @@ green = 8'b11111111;
 blue = 8'b11111111;
 vsync = 1'b1;
 hsync = 1'b1;
+h_count = 12'd0;
+v_count = 12'd0;
 end
 
 
@@ -63,6 +70,18 @@ always @(posedge clk) begin
     end else begin
         vsync <= 1'b1;
     end
+
+ //   if((h_sync_pulse + h_back_porch) < h_count < h_total_pix - h_front_porch) begin
+ //       x_val <= (h_count - h_back_porch - h_sync_pulse);
+ //   end else begin
+ //       x_val <= 10'd640; //out of display area
+ //   end
+//
+ //   if((v_sync_pulse + v_back_porch) < v_count < v_total_pix - v_back_porch) begin
+ //       y_val <= (v_count - v_back_porch - h_sync_pulse);
+//    end else begin
+ //       x_val <= 10'd480; //out of display area
+  //  end
 
 end
 

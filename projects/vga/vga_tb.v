@@ -1,11 +1,16 @@
 module vga_tb ();
-reg clk; //make all io ports to interface with the module under test
+reg clk;
 wire hsync;
 wire vsync;
-wire[2:0] red;
-wire[2:0] green;
-wire[2:0] blue;
+wire[7:0] red;
+wire[7:0] green;
+wire[7:0] blue;
+wire[9:0] x_val;
+wire[9:0] y_val;
+wire[11:0] h_count;
+wire[11:0] v_count;
 
+vga test_vga (.board_clock(clk), .hsync(hsync), .vsync(vsync), .red(red), .green(green), .blue(blue), .x_val(x_val), .y_val(y_val), .h_count_test(h_count), .v_count_test(v_count));
 
 
 
@@ -14,16 +19,16 @@ initial begin
     clk = 1'b0;
 end
 initial begin
-    $dumpfile("vga_test.vcd");  // Define the name of the waveform file
-    $dumpvars(0, clk, hsync, vsync, red, green, blue);    // Dump all signals in the testbench hierarchy
+    $dumpfile("vga_test.vcd");
+    $dumpvars(0, clk, hsync, vsync, x_val, v_count, h_count, y_val, red, green, blue);
 end
 
 always begin
-    #1 clk = !clk; //alternate the clock forever
+    #1 clk = !clk;
 end
 
 initial begin
-    #10000;
+    #1000;
     $finish;
 end
 endmodule

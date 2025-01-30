@@ -1,0 +1,178 @@
+#! /usr/local/Cellar/icarus-verilog/12.0/bin/vvp
+:ivl_version "12.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/system.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/va_math.vpi";
+S_0x7fdd40a04160 .scope module, "vga_tb" "vga_tb" 2 1;
+ .timescale 0 0;
+v0x7fdd40a15b60_0 .net "blue", 7 0, v0x7fdd40a15140_0;  1 drivers
+v0x7fdd40a15bf0_0 .var "clk", 0 0;
+v0x7fdd40a15c80_0 .net "green", 7 0, v0x7fdd40a15350_0;  1 drivers
+v0x7fdd40a15d30_0 .net "h_count", 11 0, L_0x7fdd40a16280;  1 drivers
+v0x7fdd40a15de0_0 .net "hsync", 0 0, v0x7fdd40a15560_0;  1 drivers
+v0x7fdd40a15eb0_0 .net "red", 7 0, v0x7fdd40a15600_0;  1 drivers
+v0x7fdd40a15f60_0 .net "v_count", 11 0, L_0x7fdd40a16330;  1 drivers
+v0x7fdd40a16010_0 .net "vsync", 0 0, v0x7fdd40a15870_0;  1 drivers
+v0x7fdd40a160c0_0 .net "x_val", 9 0, v0x7fdd40a15910_0;  1 drivers
+v0x7fdd40a161f0_0 .net "y_val", 9 0, v0x7fdd40a159c0_0;  1 drivers
+S_0x7fdd40a042e0 .scope module, "test_vga" "vga" 2 13, 3 1 0, S_0x7fdd40a04160;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "board_clock";
+    .port_info 1 /OUTPUT 1 "hsync";
+    .port_info 2 /OUTPUT 1 "vsync";
+    .port_info 3 /OUTPUT 8 "red";
+    .port_info 4 /OUTPUT 8 "green";
+    .port_info 5 /OUTPUT 8 "blue";
+    .port_info 6 /OUTPUT 10 "x_val";
+    .port_info 7 /OUTPUT 10 "y_val";
+    .port_info 8 /OUTPUT 12 "v_count_test";
+    .port_info 9 /OUTPUT 12 "h_count_test";
+P_0x7fdd40a044b0 .param/l "h_back_porch" 0 3 34, +C4<00000000000000000000000000110000>;
+P_0x7fdd40a044f0 .param/l "h_front_porch" 0 3 33, +C4<00000000000000000000000000010000>;
+P_0x7fdd40a04530 .param/l "h_sync_pulse" 0 3 35, +C4<00000000000000000000000001100000>;
+P_0x7fdd40a04570 .param/l "h_total_pix" 0 3 32, +C4<00000000000000000000001100100000>;
+P_0x7fdd40a045b0 .param/l "h_visible_area" 0 3 36, +C4<00000000000000000000001010000000>;
+P_0x7fdd40a045f0 .param/l "v_back_porch" 0 3 40, +C4<00000000000000000000000000100001>;
+P_0x7fdd40a04630 .param/l "v_front_porch" 0 3 39, +C4<00000000000000000000000000001010>;
+P_0x7fdd40a04670 .param/l "v_sync_pulse" 0 3 41, +C4<00000000000000000000000000000010>;
+P_0x7fdd40a046b0 .param/l "v_total_pix" 0 3 38, +C4<00000000000000000000001000001101>;
+P_0x7fdd40a046f0 .param/l "v_visible_area" 0 3 42, +C4<00000000000000000000000111100000>;
+L_0x7fdd40a16280 .functor BUFZ 12, v0x7fdd40a153e0_0, C4<000000000000>, C4<000000000000>, C4<000000000000>;
+L_0x7fdd40a16330 .functor BUFZ 12, v0x7fdd40a156b0_0, C4<000000000000>, C4<000000000000>, C4<000000000000>;
+v0x7fdd40a15140_0 .var "blue", 7 0;
+v0x7fdd40a151d0_0 .net "board_clock", 0 0, v0x7fdd40a15bf0_0;  1 drivers
+v0x7fdd40a15280_0 .net "clk", 0 0, L_0x7fdd40a163e0;  1 drivers
+v0x7fdd40a15350_0 .var "green", 7 0;
+v0x7fdd40a153e0_0 .var "h_count", 11 0;
+v0x7fdd40a154b0_0 .net "h_count_test", 11 0, L_0x7fdd40a16280;  alias, 1 drivers
+v0x7fdd40a15560_0 .var "hsync", 0 0;
+v0x7fdd40a15600_0 .var "red", 7 0;
+v0x7fdd40a156b0_0 .var "v_count", 11 0;
+v0x7fdd40a157c0_0 .net "v_count_test", 11 0, L_0x7fdd40a16330;  alias, 1 drivers
+v0x7fdd40a15870_0 .var "vsync", 0 0;
+v0x7fdd40a15910_0 .var "x_val", 9 0;
+v0x7fdd40a159c0_0 .var "y_val", 9 0;
+E_0x7fdd40a04c90 .event posedge, v0x7fdd40a150b0_0;
+S_0x7fdd40a04cf0 .scope module, "dotclk" "dot_clock_gen" 3 16, 4 1 0, S_0x7fdd40a042e0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "board";
+    .port_info 1 /OUTPUT 1 "dotclock";
+L_0x7fdd40a163e0 .functor BUFZ 1, v0x7fdd40a15010_0, C4<0>, C4<0>, C4<0>;
+v0x7fdd40a04f60_0 .net "board", 0 0, v0x7fdd40a15bf0_0;  alias, 1 drivers
+v0x7fdd40a15010_0 .var "dotclk", 0 0;
+v0x7fdd40a150b0_0 .net "dotclock", 0 0, L_0x7fdd40a163e0;  alias, 1 drivers
+E_0x7fdd40a04f00 .event posedge, v0x7fdd40a04f60_0;
+    .scope S_0x7fdd40a04cf0;
+T_0 ;
+    %wait E_0x7fdd40a04f00;
+    %load/vec4 v0x7fdd40a15010_0;
+    %nor/r;
+    %assign/vec4 v0x7fdd40a15010_0, 0;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0x7fdd40a042e0;
+T_1 ;
+    %pushi/vec4 255, 0, 8;
+    %store/vec4 v0x7fdd40a15600_0, 0, 8;
+    %pushi/vec4 255, 0, 8;
+    %store/vec4 v0x7fdd40a15350_0, 0, 8;
+    %pushi/vec4 255, 0, 8;
+    %store/vec4 v0x7fdd40a15140_0, 0, 8;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7fdd40a15870_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x7fdd40a15560_0, 0, 1;
+    %pushi/vec4 0, 0, 12;
+    %store/vec4 v0x7fdd40a153e0_0, 0, 12;
+    %pushi/vec4 0, 0, 12;
+    %store/vec4 v0x7fdd40a156b0_0, 0, 12;
+    %end;
+    .thread T_1;
+    .scope S_0x7fdd40a042e0;
+T_2 ;
+    %wait E_0x7fdd40a04c90;
+    %load/vec4 v0x7fdd40a153e0_0;
+    %pad/u 32;
+    %cmpi/u 800, 0, 32;
+    %jmp/0xz  T_2.0, 5;
+    %load/vec4 v0x7fdd40a153e0_0;
+    %addi 1, 0, 12;
+    %assign/vec4 v0x7fdd40a153e0_0, 0;
+    %jmp T_2.1;
+T_2.0 ;
+    %pushi/vec4 0, 0, 12;
+    %assign/vec4 v0x7fdd40a153e0_0, 0;
+    %load/vec4 v0x7fdd40a156b0_0;
+    %pad/u 32;
+    %cmpi/u 525, 0, 32;
+    %jmp/0xz  T_2.2, 5;
+    %load/vec4 v0x7fdd40a156b0_0;
+    %addi 1, 0, 12;
+    %assign/vec4 v0x7fdd40a156b0_0, 0;
+    %jmp T_2.3;
+T_2.2 ;
+    %pushi/vec4 0, 0, 12;
+    %store/vec4 v0x7fdd40a156b0_0, 0, 12;
+T_2.3 ;
+T_2.1 ;
+    %load/vec4 v0x7fdd40a153e0_0;
+    %pad/u 32;
+    %cmpi/u 96, 0, 32;
+    %jmp/0xz  T_2.4, 5;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x7fdd40a15560_0, 0;
+    %jmp T_2.5;
+T_2.4 ;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x7fdd40a15560_0, 0;
+T_2.5 ;
+    %load/vec4 v0x7fdd40a156b0_0;
+    %pad/u 32;
+    %cmpi/u 2, 0, 32;
+    %jmp/0xz  T_2.6, 5;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x7fdd40a15870_0, 0;
+    %jmp T_2.7;
+T_2.6 ;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x7fdd40a15870_0, 0;
+T_2.7 ;
+    %jmp T_2;
+    .thread T_2;
+    .scope S_0x7fdd40a04160;
+T_3 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x7fdd40a15bf0_0, 0, 1;
+    %end;
+    .thread T_3;
+    .scope S_0x7fdd40a04160;
+T_4 ;
+    %vpi_call 2 22 "$dumpfile", "vga_test.vcd" {0 0 0};
+    %vpi_call 2 23 "$dumpvars", 32'sb00000000000000000000000000000000, v0x7fdd40a15bf0_0, v0x7fdd40a15de0_0, v0x7fdd40a16010_0, v0x7fdd40a160c0_0, v0x7fdd40a15f60_0, v0x7fdd40a15d30_0, v0x7fdd40a161f0_0, v0x7fdd40a15eb0_0, v0x7fdd40a15c80_0, v0x7fdd40a15b60_0 {0 0 0};
+    %end;
+    .thread T_4;
+    .scope S_0x7fdd40a04160;
+T_5 ;
+    %delay 1, 0;
+    %load/vec4 v0x7fdd40a15bf0_0;
+    %nor/r;
+    %store/vec4 v0x7fdd40a15bf0_0, 0, 1;
+    %jmp T_5;
+    .thread T_5;
+    .scope S_0x7fdd40a04160;
+T_6 ;
+    %delay 1000, 0;
+    %vpi_call 2 32 "$finish" {0 0 0};
+    %end;
+    .thread T_6;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "vga_tb.v";
+    "vga2.v";
+    "dot_clk.v";

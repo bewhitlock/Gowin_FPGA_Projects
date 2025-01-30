@@ -1,11 +1,11 @@
 module dot_clock_gen (
-    input Mhz27, 
+    input board, 
     output dotclock 
 );
 reg dotclk;
 assign dotclock = dotclk;
 
-always @(posedge Mhz27) begin
+always @(posedge board) begin
     dotclk <= !dotclk;
 end 
 endmodule

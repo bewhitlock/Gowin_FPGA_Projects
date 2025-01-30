@@ -13,9 +13,9 @@ output dotclk_test
 );
 assign h_count_test = h_count;
 assign v_count_test = v_count;
-wire clk;
 dot_clock_gen dotclk (.board(board_clock), .dotclock(clk));
-assign dotclk_test = clk;
+
+
 initial begin
 red = 8'b11111111;
 green = 8'b11111111;
@@ -72,17 +72,18 @@ always @(posedge clk) begin
         vsync <= 1'b1;
     end
 
- //   if((h_sync_pulse + h_back_porch) < h_count < h_total_pix - h_front_porch) begin
- //       x_val <= (h_count - h_back_porch - h_sync_pulse);
- //   end else begin
- //       x_val <= 10'd640; //out of display area
- //   end
-//
- //   if((v_sync_pulse + v_back_porch) < v_count < v_total_pix - v_back_porch) begin
- //       y_val <= (v_count - v_back_porch - h_sync_pulse);
-//    end else begin
- //       x_val <= 10'd480; //out of display area
-  //  end
+
+    if((h_count - h_back_porch - h_sync_pulse) < h_visible_area) begin
+        x_val <= (h_count - h_back_porch - h_sync_pulse);
+    end else begin
+        x_val <= 10'd640; //out of display area
+    end
+
+    if((v_count - v_back_porch - v_sync_pulse) < v_visible_area) begin
+       y_val <= (v_count - v_back_porch - v_sync_pulse);
+    end else begin
+       y_val <= 10'd480; //out of display area
+    end
 
 end
 

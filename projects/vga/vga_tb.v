@@ -11,7 +11,7 @@ wire[11:0] h_count;
 wire[11:0] v_count;
 wire dotclk_test;
 
-vga test_vga (.board_clock(clk), .hsync(hsync), .vsync(vsync), .red(red), .green(green), .blue(blue), .x_val(x_val), .y_val(y_val), .h_count_test(h_count), .v_count_test(v_count), .dotclk_test(dotclk_test));
+vga test_vga (.board_clock(clk), .hsync(hsync), .vsync(vsync), .red(red), .green(green), .blue(blue), .x_val(x_val), .y_val(y_val), .h_count_test(h_count), .v_count_test(v_count));
 
 
 
@@ -21,7 +21,7 @@ initial begin
 end
 initial begin
     $dumpfile("vga_test.vcd");
-    $dumpvars(0, clk, hsync, vsync, x_val, v_count, h_count, y_val, red, green, blue, dotclk_test);
+    $dumpvars(0, clk, hsync, vsync, x_val, v_count, h_count, y_val, red, green, blue);
 end
 
 always begin
@@ -29,7 +29,7 @@ always begin
 end
 
 initial begin
-    #1000;
+    #1000000;
     $finish;
 end
 endmodule

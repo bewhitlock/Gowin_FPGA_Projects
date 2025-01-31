@@ -17,7 +17,8 @@ module i2c_com(clock_i2c, //input 20kHz clock
     input [31:0]i2c_data;
     input camera_rstn;
     input clock_i2c;
-    output ack;
+    output ack; //acknowledge, doesnt get used in the driving module, but 
+    //           would show if the transmit failed when ack = 1'b1;
     input start;
     output tr_end;
     output i2c_sclk;
@@ -35,7 +36,7 @@ module i2c_com(clock_i2c, //input 20kHz clock
    
     assign ack=ack1|ack2|ack3;
     assign i2c_sclk=sclk|(((cyc_count>=4)&(cyc_count<=39))?~clock_i2c:0);
-    assign i2c_sdat=reg_sdat?1'bz:0; 
+    assign i2c_sdat=reg_sdat?1'bz:0; //physical pull up on sda
    
     always@(posedge clock_i2c or  negedge camera_rstn)
     begin
@@ -65,9 +66,9 @@ module i2c_com(clock_i2c, //input 20kHz clock
        else
           case(cyc_count)
           0:begin ack1<=1;ack2<=1;ack3<=1;tr_end<=0;sclk<=1;reg_sdat<=1;end
-          1:reg_sdat<=0;                 
+          1:reg_sdat<=0;  //initiate sending               
           2:sclk<=0;
-          3:reg_sdat<=i2c_data[31];
+          3:reg_sdat<=i2c_data[31]; // doesnt get read
           4:reg_sdat<=i2c_data[30];
           5:reg_sdat<=i2c_data[29];
           6:reg_sdat<=i2c_data[28];
@@ -75,7 +76,7 @@ module i2c_com(clock_i2c, //input 20kHz clock
           8:reg_sdat<=i2c_data[26];
           9:reg_sdat<=i2c_data[25];
           10:reg_sdat<=i2c_data[24];
-          11:reg_sdat<=1;                
+          11:reg_sdat<=1;    //write fn            
           12:begin reg_sdat<=i2c_data[23];ack1<=i2c_sdat;end
           13:reg_sdat<=i2c_data[22];
           14:reg_sdat<=i2c_data[21];

@@ -17,6 +17,7 @@ reg scl_clk; //pulses in between sda_clk
 reg[5:0] send_count;
 reg sda_reg;
 reg scl_reg;
+reg ack_clk;
 
 assign sda = sda_reg? 1'bz : 1'b0; //pullup on resistor, change z to 1 to test
 
@@ -34,6 +35,8 @@ initial begin
     done_reg = 1'b0;
     sda_reg = 1'b1;
     scl_reg = 1'b1;
+    ack_reg = 1'b0;
+    ack_clk = 1'b0;
 end
 
 assign send_count_out = send_count; //for testing
@@ -51,23 +54,30 @@ always @(posedge meg25) begin //create main timing
     if(clk_count == 7'd72) begin
        scl_clk <= 1'b1;
     end
+    if(clk_count == 7'd83) begin
+        ack_clk <= 1'b1;
+    end
+    if(clk_count == 7'd104) begin
+        ack_clk <= 1'b0;
+    end
     if(clk_count == 7'd115) begin
-      scl_clk <= 1'b0;
+        scl_clk <= 1'b0;
     end
     if(clk_count == 7'd0) begin
-       sda_clk <= 1'b0; 
+        sda_clk <= 1'b0; 
     end
 end
 
-always @(posedge scl_clk or negedge scl_clk or posedge reset) begin
-    if (reset) begin
-        ack_reg <= 1'b0;
-    end else begin
-        if (send_count == 6'd12 | 6'd21 | 6'd30 | 6'd39) begin
-            ack_reg <= (ack_reg | sda);
-        end
+always @(posedge ack_clk or negedge ack_clk) begin //CHECK WITH TB FOR OTHER VALUES THAN 12
+    if ( (send_count == (6'd12)) || (send_count == (6'd21)) || (send_count == (6'd30)) || (send_count == (6'd39))) begin
+        ack_reg <= (ack_reg || sda); 
     end
 end
+
+always @(posedge reset) begin
+    ack_reg <= 1'b0;
+end
+
 
 always @(negedge sda_clk) begin
     if(sendit) begin
@@ -85,6 +95,7 @@ always @(posedge sda_clk or posedge reset) begin
         if(sendit) begin
             case(send_count)
                 0: begin
+                    ack_reg <= 1'b0;
                     sda_reg <= 1'b1;
                     scl_reg <= 1'b1;
                     done_reg = 1'b0;

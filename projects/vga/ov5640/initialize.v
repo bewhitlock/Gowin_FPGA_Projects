@@ -1,24 +1,38 @@
 module initialize (
     input meg25,
-    input send,
+    input pulse_send,
     input reset,
     inout sda,
     output scl,
-    output initial_done
+    output initial_done,
+    output i2c_done_test,
+    output[7:0] step_test
 );
-wire ack;
-wire done;
+wire ack; //i2c failed sending bytes
+wire i2c_done; //i2c finished sending bytes
 wire[23:0] send_dat;
 wire sendit;
 
-//reg[23:0] dat;
-//assign send_dat = dat;
+assign i2c_done_test = i2c_done; //for testing
+assign step_test = step;
+reg[23:0] dat;
+assign send_dat = dat;
 
-//reg send_reg;
-//assign sendit = send_reg;
+reg send_i2c;
+assign sendit = send_i2c;
 
-//reg[7:0] step;
-//reg[7:0] wait_count;
+reg initialized;
+assign initial_done = initialized;
+reg send;
+reg[7:0] step;
+
+initial begin
+    initialized = 1'b0;
+    send = 1'b0;
+    step = 8'd0;
+    send_i2c = 1'b0;
+    dat = 24'd0;
+end
 
 i2c bruh (
             .meg25(meg25),
@@ -26,31 +40,43 @@ i2c bruh (
             .sda(sda),
             .scl(scl),
             .ack(ack),
-            .done(done),
+            .done(i2c_done),
             .send_dat(send_dat),
             .sendit(sendit)
 );
 
-assign send_dat = 24'd123;
-assign sendit = 1'b1;
+always @(posedge ack) begin //check ack cases ****************************************
+    send <= 1'b1;
+    initialized <= 1'b0;
+    //step <= 8'd0;
+end
 
+always @(posedge i2c_done) begin
+    if(step == 8'd1) begin
+        send <= 1'b0;
+        initialized <= 1'b1;
+        send_i2c <= 1'b0; //sets sda, and scl high
+    end
+    step <= step + 1'b1;
+end
+
+always @(posedge meg25) begin
+    if(pulse_send) begin
+        send <= 1'b1;
+        initialized <= 1'b0;
+    end
+    if(send) begin
+        case (step)
+            8'd0: dat <= 24'h83;
+            8'd1: dat <= 24'b000000000000000000000000;
+        endcase
+        send_i2c <= 1'b1;
+    end
+end
 endmodule
-///////
-        //if(done) begin
-            //if(wait_count < 125) begin
-                //wait_count <= wait_count + 1'b1;
-                //send_reg <= 1'b0;
-            //end else begin
-                //case(step)
-                    //0:dat <= 24'd100;
-                //endcase
-                //send_reg <= 1'b1;
-                //wait_count <= 8'd0;
-                //step <= step + 1'b1;
-            //end
-        //end
 
-////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 module i2c (
     input meg25, // 25MHz
@@ -81,7 +107,7 @@ initial begin
     scl_clk = 1'b0;
     clk_count = 7'd0;
     send_count = 6'd0;
-    done_reg = 1'b1;
+    done_reg = 1'b0;
     sda_reg = 1'b1;
     scl_reg = 1'b1;
     ack_reg = 1'b0;
@@ -124,7 +150,7 @@ always @(posedge reset) begin
 end
 always @(negedge sda_clk) begin
     if(sendit) begin
-        if (send_count < 6'd42) begin
+        if (send_count < 6'd43) begin
             send_count <= send_count + 1'b1;
         end else begin
             send_count <= 6'd0;
@@ -193,15 +219,13 @@ always @(posedge sda_clk or posedge reset) begin
                 39:sda_reg <= 1'b1; //1 for z
                 40:sda_reg <= 1'b0;
                 41:scl_reg <= 1'b1;
-                42:begin 
-                    sda_reg <= 1'b1;
-                    done_reg <= 1'b1;
-                end
+                42:sda_reg <= 1'b1;
+                43:done_reg <= 1'b1;
                 endcase
 
         end else begin //if sendit == 0;
             send_count <= 6'd0;
-            done_reg <= 1'b1;
+            done_reg <= 1'b0;
             sda_reg <= 1'b1;
             scl_reg <= 1'b1;
         end

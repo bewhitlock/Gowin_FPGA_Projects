@@ -1,3 +1,28 @@
+///////////////////////////////////////////////////////
+//Registers to write / research from datasheet:
+//AHHHHHHHHHHHHHHHHHHHHHHHHH
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
 module initialize (
     input meg25,
     input pulse_send,
@@ -6,7 +31,8 @@ module initialize (
     output scl,
     output initial_done,
     output i2c_done_test,
-    output[7:0] step_test
+    output[7:0] step_test,
+    output ack_test
 );
 wire ack; //i2c failed sending bytes
 wire i2c_done; //i2c finished sending bytes
@@ -14,7 +40,8 @@ wire[23:0] send_dat;
 wire sendit;
 
 assign i2c_done_test = i2c_done; //for testing
-assign step_test = step;
+assign step_test = step; //for testing
+assign ack_test = ack;
 reg[23:0] dat;
 assign send_dat = dat;
 
@@ -48,7 +75,7 @@ i2c bruh (
 always @(posedge ack) begin //check ack cases ****************************************
     send <= 1'b1;
     initialized <= 1'b0;
-    //step <= 8'd0;
+    step <= 8'd0;
 end
 
 always @(posedge i2c_done) begin
@@ -189,7 +216,8 @@ always @(posedge sda_clk or posedge reset) begin
                 9:sda_reg <= i2c_address[1];
                 10:sda_reg <= i2c_address[0];
                 11:sda_reg <= 1'b0; // r/w bit
-                12:sda_reg <= 1'b1; //1 for z
+                //12:sda_reg <= 1'b1; //1 for z uncomment for synthesis
+                12:sda_reg <= 1'b0; //comment out for synthesis
                 13:sda_reg <= send_dat[23];
                 14:sda_reg <= send_dat[22];
                 15:sda_reg <= send_dat[21];
@@ -198,7 +226,8 @@ always @(posedge sda_clk or posedge reset) begin
                 18:sda_reg <= send_dat[18];
                 19:sda_reg <= send_dat[17];
                 20:sda_reg <= send_dat[16]; //skip 21, ack bit
-                21:sda_reg <= 1'b1; //1 for z
+                //21:sda_reg <= 1'b1; //1 for z uncomment for synthesis
+                21:sda_reg <= 1'b0; //comment out for synthesis
                 22:sda_reg <= send_dat[15];
                 23:sda_reg <= send_dat[14];
                 24:sda_reg <= send_dat[13];
@@ -207,7 +236,8 @@ always @(posedge sda_clk or posedge reset) begin
                 27:sda_reg <= send_dat[10];
                 28:sda_reg <= send_dat[9];
                 29:sda_reg <= send_dat[8]; //skip 30, ack bit
-                30:sda_reg <= 1'b1; //1 for z
+                //30:sda_reg <= 1'b1; //1 for z uncomment for synthesis
+                30:sda_reg <= 1'b0; //comment out for synthesis
                 31:sda_reg <= send_dat[7];
                 32:sda_reg <= send_dat[6];
                 33:sda_reg <= send_dat[5];
@@ -216,7 +246,8 @@ always @(posedge sda_clk or posedge reset) begin
                 36:sda_reg <= send_dat[2];
                 37:sda_reg <= send_dat[1];
                 38:sda_reg <= send_dat[0]; //skip 39, ack bit
-                39:sda_reg <= 1'b1; //1 for z
+                //39:sda_reg <= 1'b1; //1 for z uncomment for synthesis
+                39:sda_reg <= 1'b0; //comment out for synthesis
                 40:sda_reg <= 1'b0;
                 41:scl_reg <= 1'b1;
                 42:sda_reg <= 1'b1;

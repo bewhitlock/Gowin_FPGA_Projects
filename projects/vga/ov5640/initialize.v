@@ -1,3 +1,59 @@
+module initialize (
+    input meg25,
+    input send,
+    input reset,
+    inout sda,
+    output scl,
+    output initial_done
+    
+    
+);
+wire ack;
+wire done;
+wire[23:0] send_dat;
+wire sendit;
+
+reg[23:0] dat;
+assign send_dat = dat;
+
+reg send_reg;
+assign sendit = send_reg;
+
+reg[7:0] step;
+reg[7:0] wait_count;
+
+i2c instance (
+            .meg25(meg25), 
+            .reset(reset),
+            .sda(sda),
+            .scl(scl),
+            .ack(ack),
+            .done(done),
+            .send_dat(send_dat),
+            .sendit(sendit)
+);
+
+always @(posedge meg25) begin
+    if(done) begin
+        if(wait_count < 125) begin
+            wait_count <= wait_count + 1'b1;
+            send_reg <= 1'b0;
+        end else begin
+            case(step)
+                0:dat <= 24'd24234;
+            endcase
+            send_reg <= 1'b1
+            wait_count <= 8'd0;
+            step <= step + 1'b1;
+        end
+    end
+end
+endmodule
+
+
+
+
+
 module i2c (
     input meg25, // 25MHz
     input[23:0] send_dat,
@@ -18,29 +74,22 @@ reg[5:0] send_count;
 reg sda_reg;
 reg scl_reg;
 reg ack_clk;
-
 assign sda = sda_reg? 1'bz : 1'b0; //pullup on resistor, change z to 1 to test
-
 assign scl = ( (6'd4 > send_count) | (send_count > 6'd39) )?scl_reg:scl_clk;
-
-
 assign done = done_reg;
 assign ack = ack_reg;
-
 initial begin
     sda_clk = 1'b0;
     scl_clk = 1'b0;
     clk_count = 7'd0;
     send_count = 6'd0;
-    done_reg = 1'b0;
+    done_reg = 1'b1;
     sda_reg = 1'b1;
     scl_reg = 1'b1;
     ack_reg = 1'b0;
     ack_clk = 1'b0;
 end
-
 assign send_count_out = send_count; //for testing
-
 reg[6:0] clk_count;
 always @(posedge meg25) begin //create main timing
     if(clk_count < 7'd125) begin
@@ -67,18 +116,14 @@ always @(posedge meg25) begin //create main timing
         sda_clk <= 1'b0; 
     end
 end
-
-always @(posedge ack_clk or negedge ack_clk) begin //CHECK WITH TB FOR OTHER VALUES THAN 12
+always @(posedge ack_clk or negedge ack_clk) begin
     if ( (send_count == (6'd12)) || (send_count == (6'd21)) || (send_count == (6'd30)) || (send_count == (6'd39))) begin
         ack_reg <= (ack_reg || sda); 
     end
 end
-
 always @(posedge reset) begin
     ack_reg <= 1'b0;
 end
-
-
 always @(negedge sda_clk) begin
     if(sendit) begin
         if (send_count < 6'd42) begin
@@ -158,11 +203,10 @@ always @(posedge sda_clk or posedge reset) begin
 
         end else begin //if sendit == 0;
             send_count <= 6'd0;
-            done_reg <= 1'b0;
+            done_reg <= 1'b1;
             sda_reg <= 1'b1;
             scl_reg <= 1'b1;
         end
     end
 end
-
 endmodule

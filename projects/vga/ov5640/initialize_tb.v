@@ -20,7 +20,7 @@ assign sda = sda_reg;
 
 initial begin
 $dumpfile("test.vcd");
-$dumpvars(0, sda, scl, sendit, send_count, ack, done);
+$dumpvars(0, done, sda, scl, sendit, send_count, ack);
 scl_count = 8'd0;
 sda_reg = 1'bz;
 meg_reg25 = 1'b0;
@@ -36,8 +36,9 @@ end
 
 reg[7:0] scl_count;
 always @(posedge scl) begin
-    if(scl_count == 8'd9) begin
+    if(scl_count == 8'd9 | scl_count == 8'd18 | scl_count == 8'd27 | scl_count == 8'd36) begin
         sda_reg <= 1'b1;
+        #90 sda_reg <= 1'bz;
     end else begin
         sda_reg <= 1'bz;
     end

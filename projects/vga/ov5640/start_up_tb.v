@@ -4,6 +4,8 @@ wire sda;
 wire scl;
 wire reset;
 wire started;
+wire pulse;
+wire[3:0] step;
 
 reg meg_reg25;
 assign meg25 = meg_reg25;
@@ -14,15 +16,17 @@ start_up test (
     .sda(sda),
     .meg25(meg25),
     .reset(reset),
-    .started(started)
+    .started(started),
+    .pulse_test(pulse),
+    .step_test(step)
 
 );
 
 initial begin
 $dumpfile("test.vcd");
-$dumpvars(0, sda, scl, started, reset);
+$dumpvars(0, sda, scl, started, reset, pulse, step);
 meg_reg25 = 1'b0;
-#300000;
+#4000000;
 $finish;
 end
 

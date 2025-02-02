@@ -1,0 +1,51 @@
+$date
+	Sun Feb  2 15:54:09 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module start_up_tb $end
+$var wire 1 ! sda $end
+$upscope $end
+$scope module start_up_tb $end
+$var wire 1 " scl $end
+$upscope $end
+$scope module start_up_tb $end
+$var wire 1 # started $end
+$upscope $end
+$scope module start_up_tb $end
+$var wire 1 $ reset $end
+$upscope $end
+$scope module start_up_tb $end
+$var wire 1 % pulse $end
+$upscope $end
+$scope module start_up_tb $end
+$var wire 4 & step [3:0] $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 &
+0%
+0$
+0#
+1"
+z!
+$end
+#100001
+b1 &
+z$
+#1150003
+b10 &
+#1150005
+1%
+#1150015
+b11 &
+0%
+#4000000

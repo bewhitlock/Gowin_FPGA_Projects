@@ -11,14 +11,14 @@ wire done;
 wire[23:0] send_dat;
 wire sendit;
 
-reg[23:0] dat;
-assign send_dat = dat;
+//reg[23:0] dat;
+//assign send_dat = dat;
 
-reg send_reg;
-assign sendit = send_reg;
+//reg send_reg;
+//assign sendit = send_reg;
 
-reg[7:0] step;
-reg[7:0] wait_count;
+//reg[7:0] step;
+//reg[7:0] wait_count;
 
 i2c bruh (
             .meg25(meg25),

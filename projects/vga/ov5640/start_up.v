@@ -23,6 +23,7 @@ assign pulse_send = pulse;
 wire initialized;
 
 initialize mod1 (
+    .meg25(meg25),
     .pulse_send(pulse_send),
     .sda(sda),
     .scl(scl),
@@ -33,7 +34,7 @@ initial begin
     step = 4'd0;
     clk_count = 20'd0;
     resetb = 1'b0;
-    pulse = 1'b0; //create
+    pulse = 1'b0;
     power_on = 1'b0;
 end
 
@@ -60,10 +61,10 @@ always @(posedge meg25) begin
     end
     4'd2: begin
         if(clk_count < 20'd5) begin //200 ns
-            clk_count = clk_count + 1'b1;
             pulse <= 1'b1;
+            clk_count = clk_count + 1'b1;
         end else begin
-            pulse <= 1'b0; //create
+            pulse <= 1'b0;
             step <= 4'd3;
             clk_count <= 20'd0;
         end 

@@ -1,7 +1,4 @@
 module start_up (
-    //output i2c_done_test,
-    //output[7:0] step_test,
-    //output ack_test,
     output reset,
     output started,
     output scl,

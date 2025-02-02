@@ -5,8 +5,6 @@ module initialize (
     inout sda,
     output scl,
     output initial_done
-    
-    
 );
 wire ack;
 wire done;
@@ -22,8 +20,8 @@ assign sendit = send_reg;
 reg[7:0] step;
 reg[7:0] wait_count;
 
-i2c instance (
-            .meg25(meg25), 
+i2c bruh (
+            .meg25(meg25),
             .reset(reset),
             .sda(sda),
             .scl(scl),
@@ -33,26 +31,26 @@ i2c instance (
             .sendit(sendit)
 );
 
-always @(posedge meg25) begin
-    if(done) begin
-        if(wait_count < 125) begin
-            wait_count <= wait_count + 1'b1;
-            send_reg <= 1'b0;
-        end else begin
-            case(step)
-                0:dat <= 24'd24234;
-            endcase
-            send_reg <= 1'b1
-            wait_count <= 8'd0;
-            step <= step + 1'b1;
-        end
-    end
-end
+assign send_dat = 24'd123;
+assign sendit = 1'b1;
+
 endmodule
+///////
+        //if(done) begin
+            //if(wait_count < 125) begin
+                //wait_count <= wait_count + 1'b1;
+                //send_reg <= 1'b0;
+            //end else begin
+                //case(step)
+                    //0:dat <= 24'd100;
+                //endcase
+                //send_reg <= 1'b1;
+                //wait_count <= 8'd0;
+                //step <= step + 1'b1;
+            //end
+        //end
 
-
-
-
+////////
 
 module i2c (
     input meg25, // 25MHz

@@ -1,0 +1,25 @@
+$date
+	Sat Feb  1 19:00:50 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module initialize_tb $end
+$var wire 1 ! sda $end
+$upscope $end
+$scope module initialize_tb $end
+$var wire 1 " scl $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+1"
+z!
+$end
+#25000

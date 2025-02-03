@@ -72,14 +72,14 @@ i2c bruh (
             .sendit(sendit)
 );
 
-always @(posedge ack) begin //check ack cases ****************************************
+always @(posedge ack) begin
     send <= 1'b1;
     initialized <= 1'b0;
     step <= 8'd0;
 end
 
 always @(posedge i2c_done) begin
-    if(step == 8'd1) begin
+    if(step == 8'd10) begin //number of steps
         send <= 1'b0;
         initialized <= 1'b1;
         send_i2c <= 1'b0; //sets sda, and scl high
@@ -95,7 +95,16 @@ always @(posedge meg25) begin
     if(send) begin
         case (step)
             8'd0: dat <= 24'h83;
-            8'd1: dat <= 24'b000000000000000000000000;
+            8'd1: dat <= 24'd1234;
+            8'd2: dat <= 24'h83;
+            8'd3: dat <= 24'd2343;
+            8'd4: dat <= 24'h83;
+            8'd5: dat <= 24'd3284;
+            8'd6: dat <= 24'h83;
+            8'd7: dat <= 24'h13;
+            8'd8: dat <= 24'h83;
+            8'd9: dat <= 24'd2343;
+            8'd10: dat <= 24'h83;
         endcase
         send_i2c <= 1'b1;
     end

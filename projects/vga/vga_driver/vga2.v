@@ -1,8 +1,8 @@
 module vga (
 input board_clock, //**change this in cst file
 output reg hsync,
-output reg vsync
-//output clk_test
+output reg vsync,
+output clk_test
 //output reg[7:0] red,
 //output reg[7:0] green,
 //output reg[7:0] blue,
@@ -17,7 +17,7 @@ output reg vsync
 //temporary testing things
 //assign h_count_test = h_count;
 //assign v_count_test = v_count;
-//assign clk_test = clk;
+assign clk_test = clk;
 
 
 dot_clock_gen dotclk (.board(board_clock), .dotclock(clk));

@@ -2,7 +2,7 @@ module vga (
 input board_clock, //**change this in cst file
 output reg hsync,
 output reg vsync,
-output clk_test
+output clk_test,
 //output reg[7:0] red,
 //output reg[7:0] green,
 //output reg[7:0] blue,
@@ -10,13 +10,13 @@ output clk_test
 //output reg[9:0] y_val,
 
 //temporary testing outputs
-//output[11:0] v_count_test,
-//output[11:0] h_count_test
+output[11:0] v_count_test,
+output[11:0] h_count_test
 );
 
 //temporary testing things
-//assign h_count_test = h_count;
-//assign v_count_test = v_count;
+assign h_count_test = h_count;
+assign v_count_test = v_count;
 assign clk_test = clk;
 
 
@@ -59,11 +59,11 @@ always @(posedge clk) begin
     //green <= 8'b11111111;
     //blue <= 8'b11111111;
 
-    if(h_count < h_total_pix) begin
+    if(h_count < h_total_pix-1) begin
         h_count <= h_count + 1'b1;
     end else begin
         h_count <= 10'd0;
-        if (v_count < v_total_pix) begin
+        if (v_count < v_total_pix-1) begin
             v_count <= v_count + 1'b1;
         end else begin
             v_count <= 10'd0;

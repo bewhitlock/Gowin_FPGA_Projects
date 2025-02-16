@@ -7,10 +7,10 @@ wire vsync;
 //wire[7:0] blue;
 //wire[9:0] x_val;
 //wire[9:0] y_val;
-//wire[11:0] h_count;
-//wire[11:0] v_count;
+wire[11:0] h_count;
+wire[11:0] v_count;
 
-vga test_vga (.board_clock(clk), .hsync(hsync), .vsync(vsync) );
+vga test_vga (.board_clock(clk), .hsync(hsync), .vsync(vsync), .h_count_test(h_count), .v_count_test(v_count));
 
 
 
@@ -20,7 +20,7 @@ initial begin
 end
 initial begin
     $dumpfile("vga_test.vcd");
-    $dumpvars(0, clk, hsync, vsync);
+    $dumpvars(0, clk, hsync, vsync, h_count, v_count);
 end
 
 always begin

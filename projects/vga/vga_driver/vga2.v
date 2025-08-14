@@ -19,11 +19,11 @@ output reg[2:0] blue
 //assign v_count_test = v_count;
 //assign clk_test = clk;
 
-
+wire[7:0] rand;
 dot_clock_gen dotclk (.board(board_clock), .dotclock(clk));
-random name (.clk(clk), .rand(rand))
+random name (.clk(clk), .rand(rand));
 
-reg[7:0] rand;
+
 
 
 initial begin
@@ -112,9 +112,9 @@ always @(posedge clk) begin
     if(x_val < 10'd640 && y_val < 10'd480) begin
     y <= (10'd480-y_val);
 ///////////////////////////////////////////////////////////////////////////////
-        red <= (rand % 8)
-        green <= (rand % 8)
-        blue <= (rand % 8)
+        red <= (rand % 8);
+        green <= (rand % 8);
+        blue <= (rand % 8);
 ///////////////////////////////////////////////////////////////////////////////
     end else begin
         red <= 3'b000;

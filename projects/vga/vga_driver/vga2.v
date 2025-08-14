@@ -2,30 +2,30 @@ module vga (
 input board_clock, //**change this in cst file
 output reg hsync,
 output reg vsync,
-output clk_test,
-//output reg[7:0] red,
-//output reg[7:0] green,
-//output reg[7:0] blue,
+//output clk_test
+output reg[2:0] red,
+output reg[2:0] green,
+output reg[2:0] blue
 //output reg[9:0] x_val,
 //output reg[9:0] y_val,
 
 //temporary testing outputs
-output[11:0] v_count_test,
-output[11:0] h_count_test
+//output[11:0] v_count_test,
+//output[11:0] h_count_test
 );
 
 //temporary testing things
-assign h_count_test = h_count;
-assign v_count_test = v_count;
-assign clk_test = clk;
+//assign h_count_test = h_count;
+//assign v_count_test = v_count;
+//assign clk_test = clk;
 
 
 dot_clock_gen dotclk (.board(board_clock), .dotclock(clk));
 
 initial begin
-//red = 8'b11111111;
-//green = 8'b11111111;
-//blue = 8'b11111111;
+red = 3'b111;
+green = 3'b111;
+blue = 3'b111;
 vsync = 1'b1;
 hsync = 1'b1;
 h_count = 10'd0;
@@ -51,22 +51,31 @@ parameter v_visible_area = 10'd480;
 ///////////////////////////////////////////////////////////////////////////
 
 reg[9:0] h_count;
-reg[9:0] v_count; 
+reg[9:0] v_count;
+
+reg[9:0] x_val; //cartesian
+reg[9:0] y_val; //inverse cartesian
+
+wire[9:0] x=x_val;//cartesian
+reg[9:0] y; //cartesian
+
+
+reg[8:0] frame;
 
 always @(posedge clk) begin
 
-    //red <= 8'b11111111;
-    //green <= 8'b11111111;
-    //blue <= 8'b11111111;
+    red <= 3'b000;
+    green <= 3'b000;
+    blue <= 3'b000;
 
-    if(h_count < h_total_pix-1) begin
-        h_count <= h_count + 1'b1;
+    if(h_count < h_total_pix) begin
+        h_count = h_count + 1'b1;
     end else begin
-        h_count <= 10'd0;
-        if (v_count < v_total_pix-1) begin
-            v_count <= v_count + 1'b1;
+        h_count = 10'd0;
+        if (v_count < v_total_pix) begin
+            v_count = v_count + 1'b1;
         end else begin
-            v_count <= 10'd0;
+            v_count = 10'd0;
         end
     end
 
@@ -83,18 +92,30 @@ always @(posedge clk) begin
     end
 
 
-    //if((h_count - h_back_porch - h_sync_pulse) < h_visible_area) begin
-        //x_val <= (h_count - h_back_porch - h_sync_pulse);
-    //end else begin
-        //x_val <= 10'd640; //out of display area
-    //end
+    if((h_count - h_back_porch - h_sync_pulse) < h_visible_area) begin
+        x_val <= (h_count - h_back_porch - h_sync_pulse);
+    end else begin
+        x_val <= 10'd640; //out of display area
+    end
 
-    //if((v_count - v_back_porch - v_sync_pulse) < v_visible_area) begin
-       //y_val <= (v_count - v_back_porch - v_sync_pulse);
-    //end else begin
-       //y_val <= 10'd480; //out of display area
-    //end
-
+    if((v_count - v_back_porch - v_sync_pulse) < v_visible_area) begin
+       y_val <= (v_count - v_back_porch - v_sync_pulse);
+    end else begin
+       y_val <= 10'd480; //out of display area
+    end
+    
+    
+    if(x_val < 10'd640 && y_val < 10'd480) begin
+    y <= (10'd480-y_val);
+///////////////////////////////////////////////////////////////////////////////
+        red <= (x < 10'd50)?3'b111:3'b000;
+        green <= (y < 10'd50)?3'b111:3'b000;
+///////////////////////////////////////////////////////////////////////////////
+    end else begin
+        red <= 3'b000;
+        green <= 3'b000;
+        blue <= 3'b000;
+    end
 end
 
 endmodule

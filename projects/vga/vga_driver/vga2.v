@@ -21,6 +21,10 @@ output reg[2:0] blue
 
 
 dot_clock_gen dotclk (.board(board_clock), .dotclock(clk));
+random name (.clk(clk), .rand(rand))
+
+reg[7:0] rand;
+
 
 initial begin
 red = 3'b111;
@@ -108,14 +112,29 @@ always @(posedge clk) begin
     if(x_val < 10'd640 && y_val < 10'd480) begin
     y <= (10'd480-y_val);
 ///////////////////////////////////////////////////////////////////////////////
-        red <= (x < 10'd50)?3'b111:3'b000;
-        green <= (y < 10'd50)?3'b111:3'b000;
+        red <= (rand % 8)
+        green <= (rand % 8)
+        blue <= (rand % 8)
 ///////////////////////////////////////////////////////////////////////////////
     end else begin
         red <= 3'b000;
         green <= 3'b000;
         blue <= 3'b000;
     end
+end
+
+endmodule
+
+//pseudorandom number generator
+module random (
+    input clk,
+    output reg[7:0] rand
+);
+initial begin
+    rand <= 8'b11001101;
+end
+always @(negedge clk) begin
+    rand <= {rand[5:1], rand[6] ^ rand[7], rand[0], rand[6]};
 end
 
 endmodule
